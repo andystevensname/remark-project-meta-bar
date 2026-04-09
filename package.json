@@ -1,0 +1,51 @@
+{
+  "name": "@andystevensname/remark-project-meta-bar",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "version": "1.1.0",
+  "description": "Remark plugin that renders project metadata bars from frontmatter via the ::project-meta-bar directive.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "remark",
+    "remark-plugin",
+    "remark-directive",
+    "markdown",
+    "mdast",
+    "frontmatter",
+    "code",
+    "metadata",
+    "documentation"
+  ],
+  "author": "Andy Stevens",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andystevensname/remark-project-meta-bar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andystevensname/remark-project-meta-bar/issues"
+  },
+  "homepage": "https://github.com/andystevensname/remark-project-meta-bar#readme",
+  "peerDependencies": {
+    "remark-directive": "^4.0.0",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "remark": "^15.0.1",
+    "remark-directive": "^4.0.0",
+    "unist-util-visit": "^5.1.0"
+  }
+}
