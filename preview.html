@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>project-meta-bar preview</title>
+<style>
+  :root{--c-gray-light:#757575;--c-gray-lighter:#E0E0E0;--c-accent:light-dark(#0277BD,#29B6F6);--grid-gutter:.5rem;--monospace-font:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;--project-meta-bar-gap:.75rem;--project-meta-bar-padding:.75rem 0;--project-meta-bar-radius:4px;--project-meta-bar-font-size:.875rem;color-scheme:light dark}body{font-family:system-ui,sans-serif;max-width:48rem;margin:2rem auto;padding:0 1rem;color:light-dark(#212121,#e0e0e0);background:light-dark(#fff,#121212)}h2{font-size:1.25rem;margin-block-start:2rem;border-bottom:1px solid var(--c-gray-lighter);padding-bottom:.5rem}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}/* === project-meta-bar styles (from andystevens.name) === */.project-meta-bar{display:grid;grid-template-columns:2fr 4fr;column-gap:var(--grid-gutter);margin:0 0 1.5rem;padding:var(--project-meta-bar-padding);border-block-start:1px solid var(--c-gray-lighter);border-block-end:1px solid var(--c-gray-lighter);font-size:var(--project-meta-bar-font-size);align-items:center}.project-meta-bar-name{grid-column:1;font-weight:700;font-family:var(--monospace-font)}.project-meta-bar-rest{grid-column:2;display:flex;gap:var(--project-meta-bar-gap);align-items:center;margin:0;padding:0;min-width:0}.project-meta-bar-link-list{display:flex;gap:var(--project-meta-bar-gap);align-items:center;list-style:none;margin:0;padding:0}.project-meta-bar-link{display:flex;align-items:center;gap:.25rem;color:var(--c-gray-light);text-decoration:none}.project-meta-bar-link:hover{color:var(--c-accent)}.project-meta-bar-cli-wrap{display:flex;align-items:center;gap:.5rem;min-width:0;flex:1;border:1px solid var(--c-gray-lighter);border-radius:var(--project-meta-bar-radius);padding:.25rem .5rem;margin-inline-start:auto}.project-meta-bar-cli{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:var(--monospace-font);font-size:var(--project-meta-bar-font-size);user-select:all}.project-meta-bar-copy{flex-shrink:0;background:none;border:none;padding:0;cursor:pointer;color:var(--c-gray-light);display:flex;align-items:center}.project-meta-bar-copy:hover,.project-meta-bar-copy[data-copied]{color:var(--c-accent)}.project-meta-bar-cli::before{content:"$ ";user-select:none;color:var(--c-gray-light)}.project-meta-bar+.project-meta-bar{border-block-start:none}.project-meta-bar:has(+ .project-meta-bar){margin-block-end:0}
+</style>
+</head>
+<body>
+
+<h2>Single project</h2>
+
+<div class="project-meta-bar-group" id="single"></div>
+
+<h2>Multiple projects (stacked)</h2>
+
+<div class="project-meta-bar-group" id="multi"></div>
+
+<h2>Minimal (no CLI, one link)</h2>
+
+<div class="project-meta-bar-group" id="minimal"></div>
+
+<script type="module">
+import renderBars from './preview-render.js';
+
+document.getElementById('single').innerHTML = renderBars([
+  {
+    project_name: 'poem-element',
+    code_urls: [
+      'https://github.com/andystevensname/poem-element',
+      'https://www.npmjs.com/package/poem-element',
+    ],
+    cli: 'npm install @andystevensname/poem-element',
+    docs: 'https://github.com/andystevensname/poem-element',
+  },
+]);
+
+document.getElementById('multi').innerHTML = renderBars([
+  {
+    project_name: 'poem-element',
+    code_urls: [
+      'https://github.com/andystevensname/poem-element',
+      'https://www.npmjs.com/package/poem-element',
+    ],
+    cli: 'npm install @andystevensname/poem-element',
+    docs: 'https://github.com/andystevensname/poem-element',
+  },
+  {
+    project_name: 'remark-poem-element',
+    code_urls: [
+      'https://github.com/andystevensname/remark-poem-element',
+      'https://www.npmjs.com/package/remark-poem-element',
+    ],
+    cli: 'npm install @andystevensname/remark-poem-element',
+    docs: 'https://github.com/andystevensname/remark-poem-element',
+  },
+]);
+
+document.getElementById('minimal').innerHTML = renderBars([
+  {
+    project_name: 'tiny-lib',
+    code_urls: ['https://github.com/example/tiny-lib'],
+  },
+]);
+
+// Copy button handler
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.project-meta-bar-copy');
+  if (!btn) return;
+  const text = btn.dataset.copy;
+  if (!text) return;
+  const status = btn.parentElement?.querySelector('[role="status"]');
+  try {
+    await navigator.clipboard.writeText(text);
+    btn.dataset.copied = '';
+    if (status) status.textContent = 'Copied to clipboard';
+    setTimeout(() => {
+      delete btn.dataset.copied;
+      if (status) status.textContent = '';
+    }, 1500);
+  } catch {
+    if (status) status.textContent = 'Copy failed';
+  }
+});
+</script>
+
+</body>
+</html>

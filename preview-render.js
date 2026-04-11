@@ -1,4 +1,5 @@
-import { visit } from 'unist-util-visit';
+// Extracts renderProjectBar from index.js for use in the browser preview.
+// Keep in sync with index.js.
 
 function escapeHtml(s) {
   return String(s)
@@ -64,42 +65,6 @@ function renderProjectBar(p) {
   return html;
 }
 
-const defaultGetFrontmatter = (file) =>
-  file.data.astro?.frontmatter ?? file.data.frontmatter ?? {};
-
-export default function remarkProjectMetaBar(options = {}) {
-  const {
-    directiveName = 'project-meta-bar',
-    frontmatterKey = 'projects',
-    getFrontmatter = defaultGetFrontmatter,
-  } = options;
-
-  return (tree, file) => {
-    visit(tree, (node) => {
-      if (
-        node.type !== 'leafDirective' &&
-        node.type !== 'containerDirective' &&
-        node.type !== 'textDirective'
-      ) return;
-      if (node.name !== directiveName) return;
-
-      const frontmatter = getFrontmatter(file);
-      const allProjects = frontmatter[frontmatterKey] ?? [];
-
-      // ::project-meta-bar[name1,name2] selects specific projects by name
-      // ::project-meta-bar with no label renders all projects
-      let selected = allProjects;
-      const label = node.children?.[0]?.value;
-      if (label) {
-        const names = label.split(',').map((s) => s.trim());
-        selected = allProjects.filter((p) => names.includes(p.project_name));
-      }
-
-      const html = selected.map(renderProjectBar).join('');
-      node.data = node.data ?? {};
-      node.data.hName = 'div';
-      // project-meta-bar-group container removed; assign no wrapper class
-      node.children = [{ type: 'html', value: html }];
-    });
-  };
+export default function renderBars(projects) {
+  return projects.map(renderProjectBar).join('');
 }

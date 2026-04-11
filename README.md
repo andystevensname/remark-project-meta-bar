@@ -84,10 +84,10 @@ The plugin auto-detects GitHub and npm URLs in the `code_urls` array and renders
 
 ## Output
 
-Each `::project-meta-bar` directive becomes a `<div class="project-meta-bar-group">` containing one `<dl class="project-meta-bar">` per project. The structure uses semantic description list elements:
+Each `::project-meta-bar` directive becomes one or more `<dl class="project-meta-bar">` elements per project. The structure uses semantic description list elements:
 
 ```html
-<div class="project-meta-bar-group">
+<!-- project-meta-bar-group removed -->
   <dl class="project-meta-bar" aria-label="my-package project info">
     <dt class="project-meta-bar-name">my-package</dt>
     <div class="project-meta-bar-rest">
