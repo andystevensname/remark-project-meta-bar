@@ -32,15 +32,18 @@ function renderProjectBar(p) {
   let html = `<dl class="project-meta-bar" aria-label="${name} project info">`;
   html += `<dt class="project-meta-bar-name">${name}</dt>`;
 
-  // Links as separate dd elements
+  const links = [];
   if (p.docs) {
-    html += `<dd class="project-meta-bar-links"><a href="${escapeHtml(p.docs)}" class="project-meta-bar-link" aria-label="Project documentation">${DOCS_SVG}<span class="sr-only">Docs</span></a></dd>`;
+    links.push(`<li><a href="${escapeHtml(p.docs)}" class="project-meta-bar-link" aria-label="Project documentation">${DOCS_SVG}<span class="sr-only">Docs</span></a></li>`);
   }
   if (githubUrl) {
-    html += `<dd class="project-meta-bar-links"><a href="${escapeHtml(githubUrl)}" class="project-meta-bar-link" aria-label="View on GitHub">${GITHUB_SVG}<span class="sr-only">GitHub</span></a></dd>`;
+    links.push(`<li><a href="${escapeHtml(githubUrl)}" class="project-meta-bar-link" aria-label="View on GitHub">${GITHUB_SVG}<span class="sr-only">GitHub</span></a></li>`);
   }
   if (npmUrl) {
-    html += `<dd class="project-meta-bar-links"><a href="${escapeHtml(npmUrl)}" class="project-meta-bar-link" aria-label="View on npm">${NPM_SVG}<span class="sr-only">npm</span></a></dd>`;
+    links.push(`<li><a href="${escapeHtml(npmUrl)}" class="project-meta-bar-link" aria-label="View on npm">${NPM_SVG}<span class="sr-only">npm</span></a></li>`);
+  }
+  if (links.length) {
+    html += `<dd class="project-meta-bar-links"><ul class="project-meta-bar-link-list">${links.join('')}</ul></dd>`;
   }
 
   if (p.cli) {
