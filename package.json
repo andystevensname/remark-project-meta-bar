@@ -4,7 +4,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Remark plugin that renders project metadata bars from frontmatter via the ::project-meta-bar directive.",
   "type": "module",
   "main": "index.js",
